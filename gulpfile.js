@@ -5,27 +5,28 @@ var urlTrailingPath    = "istuffs";
 /* ---------------------------------------- */
 /* Déclaration des variables pour les tasks */
 /* ---------------------------------------- */
-var gulp            = require('gulp');
-var sass            = require('gulp-sass');
-var autoprefixer    = require('gulp-autoprefixer');
-var rename          = require('gulp-rename');
-var cleanCss        = require('gulp-clean-css');
-var htmlMin         = require('gulp-htmlmin');
-var uglify          = require('gulp-uglify');
-var browserSync     = require('browser-sync');
-var sourcemaps      = require('gulp-sourcemaps');
-var imagemin        = require('gulp-imagemin');
-var babel           = require('gulp-babel');
-var plumber         = require('gulp-plumber');
-var notify          = require("gulp-notify");
-
+var gulp            = require('gulp'),
+    sass            = require('gulp-sass'),
+    autoprefixer    = require('gulp-autoprefixer'),
+    rename          = require('gulp-rename'),
+    cleanCss        = require('gulp-clean-css'),
+    htmlMin         = require('gulp-htmlmin'),
+    uglify          = require('gulp-uglify'),
+    browserSync     = require('browser-sync'),
+    sourcemaps      = require('gulp-sourcemaps'),
+    imagemin        = require('gulp-imagemin'),
+    babel           = require('gulp-babel'),
+    plumber         = require('gulp-plumber'),
+    notify          = require("gulp-notify"),
+    gulpif          = require('gulp-if'),
+    argv            = require('yargs').argv;
 /* --------------------- */
 /* Déclaration des tasks */
 /* --------------------- */
 gulp.task('sass-task', function () {
   return gulp.src('./src/sass/**/*.{scss,sass}')
   .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-  .pipe(sourcemaps.init())
+  .pipe(gulpif(!argv.production, sourcemaps.init()))
   .pipe(sass().on('error', sass.logError))
   .pipe(autoprefixer({
       browsers: ['last 6 versions'],
@@ -35,7 +36,7 @@ gulp.task('sass-task', function () {
     compatibility: 'ie8'
   }))
   .pipe(rename(function(path){ path.basename += ".min"; }))
-  .pipe(sourcemaps.write('.'))
+  .pipe(gulpif(!argv.production, sourcemaps.write('.')))
   .pipe(gulp.dest('./css'));
 });
 
@@ -43,7 +44,7 @@ gulp.task('js-task', function() {
   return gulp.src('./src/js/*.js')
   .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
   .pipe(babel({ presets: ['es2015'] }))
-  .pipe(uglify())
+  .pipe(gulpif(argv.production, uglify()))
   .pipe(rename(function(path){ path.basename += ".min"; }))
   .pipe(gulp.dest('./js'));
 });
