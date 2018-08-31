@@ -20,6 +20,8 @@ var gulp            = require('gulp'),
     notify          = require("gulp-notify"),
     gulpif          = require('gulp-if'),
     argv            = require('yargs').argv;
+
+
 /* --------------------- */
 /* Déclaration des tasks */
 /* --------------------- */
@@ -48,7 +50,6 @@ gulp.task('js-task', function() {
   .pipe(rename(function(path){ path.basename += ".min"; }))
   .pipe(gulp.dest('./js'));
 });
-
 
 gulp.task('refresh', function() {
 	var files = [
