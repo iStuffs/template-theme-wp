@@ -30,3 +30,27 @@ template-theme-wp/
 ├── screenshot.jpg
 └── style.css
 ```
+
+## Get started
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Edit the gulp file
+
+You need to change the value of the variable `urlTrailingPath` to match your theme.
+
+```javascript
+var urlTrailingPath = "your-theme-name";
+```
+
+3. It's time to work
+
+Lunch the default npm script and your files are watch so you can easily build awesome stuffs ;)
+
+```bash
+npm start
+```
