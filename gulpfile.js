@@ -45,7 +45,7 @@ gulp.task('sass-task', function () {
 gulp.task('js-task', function() {
   return gulp.src('./src/js/*.js')
   .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-  .pipe(babel({ presets: ['es2015'] }))
+  .pipe(babel({ presets: ['@babel/preset-env'] }))
   .pipe(gulpif(argv.production, uglify()))
   .pipe(rename(function(path){ path.basename += ".min"; }))
   .pipe(gulp.dest('./js'));
