@@ -68,12 +68,12 @@ gulp.task('refresh', function() {
 /* ------------------- */
 /* Exécution des tasks */
 /* ------------------- */
-gulp.task('watch', ['sass-task', 'js-task', 'refresh'], function () {
+gulp.task('watch', gulp.series('sass-task', 'js-task', 'refresh', () => {
   gulp.watch('./src/sass/**/*.{scss,sass}', ['sass-task']);
   gulp.watch('./src/js/*.js', ['js-task']);
   gulp.watch('./*.php').on('change', browserSync.reload);
   gulp.watch('./css/*.css').on('change', browserSync.reload);
   gulp.watch('./js/*.js').on('change', browserSync.reload);
-});
+}));
 
-gulp.task('default', ['watch']);
+gulp.task('default', gulp.series('watch'));
